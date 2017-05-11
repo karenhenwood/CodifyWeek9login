@@ -30,17 +30,40 @@ function authenticate(){
 //if there's a match let them in
 //if you get to the end of the array of known users
 //i will have incremented all the way to the array's length (less 1)
-//this tells you there was no match so let the user know
+//this tells you there was no match and calls troubleshoot
+//troubleshoot helps determine which fields to clear
+//  Valid un and   valid pw -> clear both fields
+//  Valid un and invalid pw -> clear pw only
+//Invalid un and   valid pw -> clear both fields
+//Invalid un and invalid pw -> clear both fields
 	for(i=0; i<userArray.length; i++){
-		if ((un == userArray[i].un) && (pw == userArray[i].pw)){
-			alert("You're in!")
+		if((un == userArray[i].un) && (pw == userArray[i].pw)){
+			alert("You're in!");
+			document.getElementById('un').value = "";
+			document.getElementById('pw').value = "";
 			break;
 		}
 		if(i==userArray.length-1){
-			alert("No match found")
+			troubleshoot(un, pw);
 		}
 	}
 };
-
+//If there is a match in the known usernames clear only the pw field so user
+//doesn't have to retype un
+//If there is no match in the known usernames clear both un and pw fields
+function troubleshoot(un, pw){
+		for(j=0; j<userArray.length; j++){
+			if(un == userArray[j].un){
+				alert("Bad password");
+				document.getElementById('pw').value = "";
+				break;
+			}
+			if(j==userArray.length-1){
+				alert("No match found");
+				document.getElementById('un').value = "";
+				document.getElementById('pw').value = "";
+			}
+		}
+};
 
 
